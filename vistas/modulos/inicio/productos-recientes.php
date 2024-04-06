@@ -1,13 +1,11 @@
 <?php
-
+// Obtener productos
 $item = null;
 $valor = null;
 $orden = "id";
-
 $productos = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
 
- ?>
-
+?>
 
 <div class="box box-primary">
 
@@ -38,33 +36,32 @@ $productos = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
     <ul class="products-list product-list-in-box">
 
     <?php
-
-    for($i = 0; $i < 10; $i++){
-
-      echo '<li class="item">
-
-        <div class="product-img">
-
-          <img src="'.$productos[$i]["imagen"].'" alt="Product Image">
-
-        </div>
-
-        <div class="product-info">
-
-          <a href="" class="product-title">
-
-            '.$productos[$i]["descripcion"].'
-
-            <span class="label label-warning pull-right">$'.$productos[$i]["precio_venta"].'</span>
-
-          </a>
-    
-       </div>
-
-      </li>';
-
+    // Verificar si el array $productos está definido y no está vacío
+    if(isset($productos) && is_array($productos) && count($productos) > 0) {
+        // Iterar sobre los primeros 5 elementos del array $productos
+        for($i = 0; $i < min(5, count($productos)); $i++) {
+            // Verificar si el índice actual existe en el array $productos
+            if(isset($productos[$i])) {
+                // Acceder a los datos del producto en el índice actual
+                $producto = $productos[$i];
+                // Mostrar el producto en la interfaz
+                echo '<li class="item">
+                    <div class="product-img">
+                        <img src="'.$producto["imagen"].'" alt="Product Image">
+                    </div>
+                    <div class="product-info">
+                        <a href="" class="product-title">
+                            '.$producto["descripcion"].'
+                            <span class="label label-warning pull-right">$'.$producto["precio_venta"].'</span>
+                        </a>
+                    </div>
+                </li>';
+            }
+        }
+    } else {
+        // No hay productos disponibles
+        echo "No hay productos disponibles.";
     }
-
     ?>
 
     </ul>

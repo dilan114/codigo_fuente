@@ -486,9 +486,88 @@ static public function ctrCrearUsuario(){
 		}
 
 	}
+	/*=============================================
+    EDITAR FOTO DE PERFIL
+=============================================*/
 
+static public function ctrEditarFotoPerfil(){
+
+    if(isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])){
+
+        list($ancho, $alto) = getimagesize($_FILES["editarFoto"]["tmp_name"]);
+
+        $nuevoAncho = 500;
+        $nuevoAlto = 500;
+
+        $directorio = "vistas/img/usuarios/".$_SESSION["usuario"];
+
+        // Eliminamos la foto actual si existe
+        if($_SESSION["foto"] != 'vistas/img/usuarios/default/anonymous.png' && file_exists($_SESSION["foto"])){
+            unlink($_SESSION["foto"]);
+        }
+
+        mkdir($directorio, 0755);
+
+        if($_FILES["editarFoto"]["type"] == "image/jpeg"){
+
+            $aleatorio = mt_rand(100,999);
+
+            $ruta = "vistas/img/usuarios/".$_SESSION["usuario"]."/".$aleatorio.".jpg";
+
+            $origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);                        
+
+            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+
+            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+
+            imagejpeg($destino, $ruta);
+
+        }
+
+        if($_FILES["editarFoto"]["type"] == "image/png"){
+
+            $aleatorio = mt_rand(100,999);
+
+            $ruta = "vistas/img/usuarios/".$_SESSION["usuario"]."/".$aleatorio.".png";
+
+            $origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);                        
+
+            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+
+            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+
+            imagepng($destino, $ruta);
+
+        }
+
+        // Actualizamos la ruta de la foto en la sesión
+        $_SESSION["foto"] = $ruta;
+
+        // Actualizamos la ruta de la foto en la base de datos
+        $tabla = "usuarios";
+        $item1 = "foto";
+        $valor1 = $ruta;
+        $item2 = "usuario";
+        $valor2 = $_SESSION["usuario"];
+        ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
+
+        
+        echo '<script>
+            swal({
+                type: "success",
+                title: "¡La foto de perfil ha sido actualizada!",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            }).then(function(result) {
+                if (result.value) {
+                    window.location.reload();
+                }
+            });
+        </script>';
+
+        return $ruta;
+
+    }
 
 }
-	
-
-
+}

@@ -73,7 +73,7 @@
 
 		}
 // Opción Proveedores
-if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Compras"){
+if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Especial"){
 
 	echo '<li>
 
@@ -151,7 +151,7 @@ if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Compras"){
 		}
 
 		// Opción Compras
-		if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Compras"){
+		if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Especial"){
 
 			echo '<li class="treeview">
 
