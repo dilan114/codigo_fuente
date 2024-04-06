@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -101,9 +99,6 @@ session_start();
   <!-- ChartJS http://www.chartjs.org/-->
   <script src="vistas/bower_components/Chart.js/Chart.js"></script>
 
-
-
-
 </head>
 
 <!--=====================================
@@ -141,11 +136,13 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "categorias" ||
          $_GET["ruta"] == "productos" ||
          $_GET["ruta"] == "clientes" ||
+         $_GET["ruta"] == "proveedores"||
          $_GET["ruta"] == "ventas" ||
          $_GET["ruta"] == "crear-venta" ||
          $_GET["ruta"] == "editar-venta" ||
          $_GET["ruta"] == "reportes" ||
-         $_GET["ruta"] == "salir"){
+         $_GET["ruta"] == "salir" ||
+         $_GET["ruta"] == "compras" ){
 
         include "modulos/".$_GET["ruta"].".php";
 
@@ -184,7 +181,9 @@ CUERPO DOCUMENTO
 <script src="vistas/js/productos.js"></script>
 <script src="vistas/js/clientes.js"></script>
 <script src="vistas/js/ventas.js"></script>
+<script src="vistas/js/proveedores.js"></script>
 <script src="vistas/js/reportes.js"></script>
+<script src="vistas/js/compras.js"></script>
 
 </body>
 </html>

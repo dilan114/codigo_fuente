@@ -72,7 +72,21 @@
 			</li>';
 
 		}
+// Opción Proveedores
+if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Compras"){
 
+	echo '<li>
+
+		<a href="proveedores">
+
+			<i class="fa fa-truck"></i>
+			<span>Proveedores</span>
+
+		</a>
+
+	</li>';
+
+}
 		if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Vendedor"){
 
 			echo '<li class="treeview">
@@ -130,13 +144,62 @@
 
 					}
 
-				
+				echo '</ul>
+
+			</li>';
+
+		}
+
+		// Opción Compras
+		if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Compras"){
+
+			echo '<li class="treeview">
+
+				<a href="#">
+
+					<i class="fa fa-shopping-cart"></i>
+					
+					<span>Compras</span>
+					
+					<span class="pull-right-container">
+					
+						<i class="fa fa-angle-left pull-right"></i>
+
+					</span>
+
+				</a>
+
+				<ul class="treeview-menu">
+					
+					<li>
+
+						<a href="nueva-compra">
+							
+							<i class="fa fa-circle-o"></i>
+							<span>Nueva compra</span>
+
+						</a>
+
+					</li>
+
+					<li>
+
+						<a href="compras">
+							
+							<i class="fa fa-circle-o"></i>
+							<span>Gestionar compra</span>
+
+						</a>
+
+					</li>';
 
 				echo '</ul>
 
 			</li>';
 
 		}
+
+		
 
 		?>
 
