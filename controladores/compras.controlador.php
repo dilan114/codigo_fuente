@@ -139,7 +139,7 @@ class ControladorCompras{
 		 
 											 // Abre la factura en una nueva ventana emergente
 											 // Abre la factura en una nueva ventana emergente
-											 var win = window.open("http://localhost/codigo_fuente/extensiones/tcpdf/pdf/ticket.php?codigo=' . $_POST["nuevaCompra"] . '", "_blank", "width=400,height=600");
+											 var win = window.open("http://localhost/codigo_fuente/extensiones/tcpdf/pdf/ImprimirTicket.php?codigo=' . $_POST["nuevaCompra"] . '", "_blank", "width=400,height=600");
 		 
 											 if(win){
 												 win.focus();
@@ -231,8 +231,8 @@ class ControladorCompras{
 			 
 						 $traerProveedor = ModeloProveedor::mdlMostrarProveedores($tablaProveedores, $itemProveedor, $valorProveedor);
 			 
-						 $item1a = "ventas";
-						 $valor1a = $traerProveedor["ventas"] - array_sum($totalProductosComprados);
+						 $item1a = "compras";
+						 $valor1a = $traerProveedor["compras"] + array_sum($totalProductosComprados);
 			 
 						 $ventasProveedor = ModeloProveedor::mdlActualizarProveedor($tablaProveedores, $item1a, $valor1a, $valorProveedor);
 			 
@@ -275,9 +275,9 @@ class ControladorCompras{
 			 
 						 $traerProveedor_2 = ModeloProveedor::mdlMostrarProveedores($tablaProveedores_2, $item_2, $valor_2);
 			 
-						 $item1a_2 = "ventas";
+						 $item1a_2 = "compras";
 			 
-						 $valor1a_2 = array_sum($totalProductosComprados_2) + $traerProveedor_2["ventas"];
+						 $valor1a_2 = array_sum($totalProductosComprados_2) + $traerProveedor_2["compras"];
 			 
 						 $ventasProveedor_2 = ModeloProveedor::mdlActualizarProveedor($tablaProveedores_2, $item1a_2, $valor1a_2, $valor_2);
 			 

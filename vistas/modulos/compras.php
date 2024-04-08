@@ -139,7 +139,7 @@ if($_SESSION["perfil"] == "Especial"){
 
                   <td>'.$value["metodo_pago"].'</td>
 
-                  <td>$ '.number_format($value["neto"],2).'</td>
+                  <td>$ '.number_format($value["neto"], 2, '.', ',').'</td>
 
                   <td>$ '.number_format($value["total"],2).'</td>
 
@@ -151,13 +151,13 @@ if($_SESSION["perfil"] == "Especial"){
 
 
 
-                      <button class="btn btn-success btnImprimirTicket" codigoCompra="'.$value["codigo"].'">
+                      <button class="btn btn-success btnImprimirTicketCompras" codigo="'.$value["codigo"].'">
 
                         <i class="fa fa-print">Ticket</i>
 
                       </button>
                         
-                      <button class="btn btn-info btnImprimirFactura" codigoCompra="'.$value["codigo"].'">
+                      <button class="btn btn-info btnImprimirFacturaCompras" codigo="'.$value["codigo"].'">
 
                         <i class="fa fa-print"></i>PDF
 
@@ -199,3 +199,7 @@ if($_SESSION["perfil"] == "Especial"){
   </section>
 
 </div>
+<script>
+
+
+</script>

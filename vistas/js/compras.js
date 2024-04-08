@@ -739,25 +739,32 @@ $(".tablas").on("click", ".btnEliminarCompra", function(){
 IMPRIMIR FACTURA
 =============================================*/
 
-$(".tablas").on("click", ".btnImprimirFactura", function(){
-
-	var codigoVenta = $(this).attr("codigoVenta");
-
-	window.open("extensiones/tcpdf/pdf/factura.php?codigo="+codigoVenta, "_blank"); 
-
-})
+$(document).ready(function() {
+    $(".tablas").on("click", ".btnImprimirFacturaCompras", function() {
+     
+        var codigoCompra = $(this).attr("codigo");
+        
+                
+               window.open('extensiones/tcpdf/pdf/imprimirFactura.php?codigo=' + codigoCompra, '_blank');
+               
+        });
+    });
 
 /*=============================================
 IMPRIMIR Ticket
 =============================================*/
 
-$(".tablas").on("click", ".btnImprimirTicket", function(){
+$(document).ready(function() {
+    $(".tablas").on("click", ".btnImprimirTicketCompras", function() {
+        // Obtener el código de compra del atributo codigoCompra del botón
+        var codigoCompra = $(this).attr("codigo");
+        
+                
+                var win = window.open('extensiones/tcpdf/pdf/ImprimirTicket.php?codigo=' + codigoCompra, '_blank', 'width=400,height=600');
+               
+        });
+    });
 
-	var codigoVenta = $(this).attr("codigoVenta");
-
-	window.open("extensiones/tcpdf/pdf/ticket.php?codigo="+codigoVenta, "_blank"); 
-
-})
 
 /*=============================================
 RANGO DE FECHAS
