@@ -2,61 +2,64 @@
 
 require_once "conexion.php";
 
-class ModeloProveedor{
+class ModeloProveedor {
 
     /*=============================================
-    MOSTRAR PROVEEDORES
+    CREAR PROVEEDOR
     =============================================*/
 
-    static public function mdlMostrarProveedores($tabla, $item, $valor){
+    static public function mdlIngresarProveedor($tabla, $datos) {
 
-        if($item != null){
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, documento, email, telefono, direccion, fecha_nacimiento, compras, ultima_compra) VALUES (:nombre, :documento, :email, :telefono, :direccion, :fecha_nacimiento, :compras, :ultima_compra)");
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+        $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+        $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+        $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
+        $stmt->bindParam(":compras", $datos["compras"], PDO::PARAM_INT);
+        $stmt->bindParam(":ultima_compra", $datos["ultima_compra"], PDO::PARAM_STR);
 
-            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+        if($stmt->execute()) {
 
-            $stmt -> execute();
+            return "ok";
 
-            return $stmt -> fetch();
+        } else {
 
-        }else{
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
-
-            $stmt -> execute();
-
-            return $stmt -> fetchAll(); 
+            return "error";
 
         }
 
-        $stmt -> close();
-
+        $stmt->close();
         $stmt = null;
 
     }
 
     /*=============================================
-    REGISTRO DE PROVEEDOR
+    MOSTRAR PROVEEDORES
     =============================================*/
 
-    static public function mdlIngresarProveedor($tabla, $datos){
+    static public function mdlMostrarProveedores($tabla, $item, $valor) {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, direccion, telefono) VALUES (:nombre, :direccion, :telefono)");
+        if($item != null) {
 
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-        $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-       
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
-        if($stmt->execute()){
+            $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
 
-            return "ok";
+            $stmt->execute();
 
-        }else{
+            return $stmt->fetch();
 
-            return "error";
-        
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
         }
 
         $stmt->close();
@@ -68,79 +71,82 @@ class ModeloProveedor{
     EDITAR PROVEEDOR
     =============================================*/
 
-    static public function mdlEditarProveedor($tabla, $datos){
+    static public function mdlEditarProveedor($tabla, $datos) {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, direccion = :direccion, telefono = :telefono WHERE id = :id");
-    
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, documento = :documento, email = :email, telefono = :telefono, direccion = :direccion, fecha_nacimiento = :fecha_nacimiento WHERE id = :id");
+
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+        $stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+        $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
         $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-    
-        $resultado = $stmt->execute();
-    
-      
-    
-        if($resultado){
+        $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
+
+        if($stmt->execute()) {
+
             return "ok";
-        }else{
+
+        } else {
+
             return "error";
+
         }
+
+        $stmt->close();
+        $stmt = null;
+
     }
-    
 
     /*=============================================
     ELIMINAR PROVEEDOR
     =============================================*/
 
-    static public function mdlEliminarProveedor($tabla, $datos){
+    static public function mdlEliminarProveedor($tabla, $datos) {
 
         $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
 
-        $stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos, PDO::PARAM_INT);
 
-        if($stmt -> execute()){
+        if($stmt->execute()) {
 
             return "ok";
-        
-        }else{
+
+        } else {
 
             return "error";    
 
         }
 
-        $stmt -> close();
-
+        $stmt->close();
         $stmt = null;
 
     }
 
-
-/*=============================================
+    /*=============================================
     ACTUALIZAR PROVEEDOR
     =============================================*/
 
-    static public function mdlActualizarProveedor($tabla, $item1, $valor1, $valor){
+    static public function mdlActualizarProveedor($tabla, $item1, $valor1, $valor) {
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE id = :id");
 
-        $stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
-        $stmt -> bindParam(":id", $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":".$item1, $valor1, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $valor, PDO::PARAM_STR);
 
-        if($stmt -> execute()){
+        if($stmt->execute()) {
 
             return "ok";
-        
-        }else{
+
+        } else {
 
             return "error";    
 
         }
 
-        $stmt -> close();
-
+        $stmt->close();
         $stmt = null;
 
     }
-}
 
+}

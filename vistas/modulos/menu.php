@@ -173,7 +173,7 @@ if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Especial"){
 					
 					<li>
 
-						<a href="nueva-compra">
+						<a href="crear-compra">
 							
 							<i class="fa fa-circle-o"></i>
 							<span>Nueva compra</span>
@@ -187,7 +187,7 @@ if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Especial"){
 						<a href="compras">
 							
 							<i class="fa fa-circle-o"></i>
-							<span>Gestionar compra</span>
+							<span>Administrar compra</span>
 
 						</a>
 

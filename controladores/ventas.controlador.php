@@ -5,8 +5,7 @@ use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
-class ControladorVentas
-{
+class  ControladorVentas{
 
 	/*=============================================
 			 MOSTRAR VENTAS
@@ -54,7 +53,6 @@ class ControladorVentas
 							})
 	
 				</script>';
-
 				return;
 			}
 
