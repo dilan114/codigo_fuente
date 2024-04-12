@@ -117,7 +117,7 @@ $(".tablaVentas tbody").on("click", "button.agregarProducto", function(){
 
 	          '<div class="col-xs-3">'+
 	            
-	             '<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock="'+stock+'" nuevoStock="'+Number(stock-1)+'" required>'+
+	             '<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="0" stock="'+stock+'" nuevoStock="'+Number(stock-1)+'" required>'+
 
 	          '</div>' +
 
@@ -143,7 +143,7 @@ $(".tablaVentas tbody").on("click", "button.agregarProducto", function(){
 
 	        // AGREGAR IMPUESTO
 
-	        agregarImpuesto()
+	        agregarImpuestos()
 
 	        // AGRUPAR PRODUCTOS EN FORMATO JSON
 
@@ -167,7 +167,7 @@ function cambios(){
 
 	        // AGREGAR IMPUESTO
 
-	        agregarImpuesto();
+	        agregarImpuestos();
 
 	        // AGRUPAR PRODUCTOS EN FORMATO JSON
 
@@ -245,11 +245,11 @@ $(".formularioVenta").on("click", "button.quitarProducto", function(){
 
 		// SUMAR TOTAL DE PRECIOS
 
-    	sumarTotalPrecios()
+    	sumarTotalPrecios1()
 
     	// AGREGAR IMPUESTO
 	        
-        agregarImpuesto()
+        agregarImpuestos()
 
         // AGRUPAR PRODUCTOS EN FORMATO JSON
 
@@ -350,11 +350,11 @@ $(".btnAgregarProducto").click(function(){
 
         	 // SUMAR TOTAL DE PRECIOS
 
-    		sumarTotalPrecios()
+			 sumarTotalPrecios1()
 
     		// AGREGAR IMPUESTO
 	        
-	        agregarImpuesto()
+	        agregarImpuestos()
 
 	        // PONER FORMATO AL PRECIO DE LOS PRODUCTOS
 
@@ -441,7 +441,7 @@ $(".formularioVenta").on("change", "input.nuevaCantidadProducto", function(){
 
 		precio.val(precioFinal);
 
-		sumarTotalPrecios();
+		sumarTotalPrecios1();
 
 		swal({
 	      title: "La cantidad supera el Stock",
@@ -456,11 +456,11 @@ $(".formularioVenta").on("change", "input.nuevaCantidadProducto", function(){
 
 	// SUMAR TOTAL DE PRECIOS
 
-	sumarTotalPrecios()
+	sumarTotalPrecios1()
 
 	// AGREGAR IMPUESTO
 	        
-    agregarImpuesto()
+    agregarImpuestos()
 
     // AGRUPAR PRODUCTOS EN FORMATO JSON
 
@@ -472,56 +472,56 @@ $(".formularioVenta").on("change", "input.nuevaCantidadProducto", function(){
 SUMAR TODOS LOS PRECIOS
 =============================================*/
 
-function sumarTotalPrecios(){
+function sumarTotalPrecios1() {
+    console.log("Ejecutando la función sumarTotalPrecios1()");
 
-	var precioItem = $(".nuevoPrecioProducto");
-	
-	var arraySumaPrecio = [];  
+    var precioItem = $(".nuevoPrecioProducto");
+    var arraySumaPrecio = [];
 
-	for(var i = 0; i < precioItem.length; i++){
+    for(var i = 0; i < precioItem.length; i++) {
+        arraySumaPrecio.push(Number($(precioItem[i]).val()));
+    }
 
-		 arraySumaPrecio.push(Number($(precioItem[i]).val()));
-		
-		 
-	}
+    console.log("Precios de los productos:", arraySumaPrecio);
 
-	function sumaArrayPrecios(total, numero){
+    function sumaArrayPrecios(total, numero) {
+        return total + numero;
+    }
 
-		return total + numero;
+    var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
 
-	}
+    console.log("Total de precios antes de asignar:", sumaTotalPrecio);
 
-	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
-	
-	$("#nuevoTotalVenta").val(sumaTotalPrecio);
-	$("#totalVenta").val(sumaTotalPrecio);
-	$("#nuevoTotalVenta").attr("total",sumaTotalPrecio);
+    $("#nuevoTotalVenta").val(sumaTotalPrecio);
+    $("#totalVenta").val(sumaTotalPrecio);
+    $("#nuevoTotalVenta").attr("total", sumaTotalPrecio);
 
-
+    console.log("Valores asignados correctamente");
 }
+
+
 
 /*=============================================
 FUNCIÓN AGREGAR IMPUESTO
 =============================================*/
 
-function agregarImpuesto(){
+function agregarImpuestos() {
+    var impuesto = parseFloat($("#nuevoImpuestoVenta").val());
+    var precioTotal = parseFloat($("#nuevoTotalVenta").val());
 
-	var impuesto = $("#nuevoImpuestoVenta").val();
-	var precioTotal = $("#nuevoTotalVenta").attr("total");
+    if (!isNaN(impuesto) && !isNaN(precioTotal)) {
+        var precioImpuesto = precioTotal * (impuesto / 100);
+        var totalConImpuesto = precioTotal + precioImpuesto;
 
-	var precioImpuesto = Number(precioTotal * impuesto/100);
-
-	var totalConImpuesto = Number(precioImpuesto) + Number(precioTotal);
-	
-	$("#nuevoTotalVenta").val(totalConImpuesto);
-
-	$("#totalVenta").val(totalConImpuesto);
-
-	$("#nuevoPrecioImpuesto").val(precioImpuesto);
-
-	$("#nuevoPrecioNeto").val(precioTotal);
-
+        $("#nuevoPrecioImpuesto").val(precioImpuesto.toFixed(2));
+        $("#nuevoPrecioNeto").val(precioTotal.toFixed(2));
+        $("#nuevoTotalVenta").val(totalConImpuesto.toFixed(2));
+        $("#totalVenta").val(totalConImpuesto.toFixed(2));
+    } else {
+        console.error("Error: los valores de impuesto y precio total no son válidos.");
+    }
 }
+
 
 /*=============================================
 CUANDO CAMBIA EL IMPUESTO
@@ -529,7 +529,7 @@ CUANDO CAMBIA EL IMPUESTO
 
 $("#nuevoImpuestoVenta").change(function(){
 
-	agregarImpuesto();
+	agregarImpuestos();
 
 });
 

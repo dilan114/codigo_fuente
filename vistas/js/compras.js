@@ -53,43 +53,36 @@ AGREGANDO PRODUCTOS A LA VENTA DESDE LA TABLA
 
 $(".tablaCompras tbody").on("click", "button.agregarProducto", function(){
 
-	var idProducto = $(this).attr("idProducto");
+    var idProducto = $(this).attr("idProducto");
 
-	$(this).removeClass("btn-primary agregarProducto");
+    $(this).removeClass("btn-primary agregarProducto");
+    $(this).addClass("btn-default");
 
-	$(this).addClass("btn-default");
-
-	var datos = new FormData();
+    var datos = new FormData();
     datos.append("idProducto", idProducto);
 
-     $.ajax({
+    $.ajax({
 
-     	url:"ajax/productos.ajax.php",
-      	method: "POST",
-      	data: datos,
-      	cache: false,
-      	contentType: false,
-      	processData: false,
-      	dataType:"json",
-      	success:function(respuesta){
+        url:"ajax/productos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(respuesta){
 
-      	    var descripcion = respuesta["descripcion"];
-          	var stock = respuesta["stock"];
-          	var precio = respuesta["precio_compra"];
+            var descripcion = respuesta["descripcion"];
+            var stock = respuesta["stock"];
+            var precio = respuesta["precio_compra"];
 
-          	/*=============================================
-          	EVITAR AGREGAR PRODUTO CUANDO EL STOCK ESTÁ EN CERO
-          	=============================================*/
+            /*=============================================
+            EVITAR AGREGAR PRODUTO CUANDO EL STOCK ESTÁ EN CERO
+            =============================================*/
 
-          
+            $("button[idProducto='"+idProducto+"']").addClass("btn-primary agregarProducto");
 
-			    $("button[idProducto='"+idProducto+"']").addClass("btn-primary agregarProducto");
-
-			  
-
-          	
-
-          	$(".nuevoProducto").append(
+            $(".nuevoProducto").append(
 
           	'<div class="row" style="padding:5px 15px">'+
 
@@ -131,24 +124,14 @@ $(".tablaCompras tbody").on("click", "button.agregarProducto", function(){
 
 	        '</div>') 
 
-	        // SUMAR TOTAL DE PRECIOS
+			sumarTotalPrecios();
+            agregarImpuesto();
+            listarProductos();
 
-	        sumarTotalPrecios()
+            // Poner formato al precio de los productos
+            $(".nuevoPrecioProducto").number(true, 2);
 
-	        // AGREGAR IMPUESTO
-
-	        agregarImpuesto()
-
-	        // AGRUPAR PRODUCTOS EN FORMATO JSON
-
-	        listarProductos()
-
-	        // PONER FORMATO AL PRECIO DE LOS PRODUCTOS
-
-	        $(".nuevoPrecioProducto").number(true, 2);
-
-
-			localStorage.removeItem("quitarProducto");
+            localStorage.removeItem("quitarProducto");
 
       	}
 
@@ -433,33 +416,35 @@ $(".formularioCompra").on("change", "input.nuevaCantidadProducto", function(){
 SUMAR TODOS LOS PRECIOS
 =============================================*/
 
+
+
 function sumarTotalPrecios(){
 
-	var precioItem = $(".nuevoPrecioProducto");
-	
-	var arraySumaPrecio = [];  
+    var precioItem = $(".nuevoPrecioProducto");
+    var arraySumaPrecio = [];  
 
-	for(var i = 0; i < precioItem.length; i++){
+    for(var i = 0; i < precioItem.length; i++){
+        arraySumaPrecio.push(Number($(precioItem[i]).val()));
+    }
 
-		 arraySumaPrecio.push(Number($(precioItem[i]).val()));
-		
-		 
-	}
+    function sumaArrayPrecios(total, numero){
+        return total + numero;
+    }
 
-	function sumaArrayPrecios(total, numero){
+    var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
 
-		return total + numero;
+    // Mostrar el precio neto (sumando todos los precios de los productos)
+    $("#nuevoPrecioNeto").val(sumaTotalPrecio.toFixed(2));
 
-	}
+    // Formatear el precio total con dos decimales
+    sumaTotalPrecio = sumaTotalPrecio.toFixed(2);
 
-	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
-	
-	$("#nuevoTotalCompra").val(sumaTotalPrecio);
-	$("#totalCompra").val(sumaTotalPrecio);
-	$("#nuevoTotalCompra").attr("total",sumaTotalPrecio);
-
-
+    $("#nuevoTotalCompra").val(sumaTotalPrecio);
+    $("#totalCompra").val(sumaTotalPrecio);
+    $("#nuevoTotalCompra").attr("total", sumaTotalPrecio);
 }
+
+
 
 /*=============================================
 FUNCIÓN AGREGAR IMPUESTO

@@ -170,28 +170,28 @@ if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Especial"){
 				</a>
 
 				<ul class="treeview-menu">
+				<li>
+
+				<a href="compras">
 					
+					<i class="fa fa-circle-o"></i>
+					<span>Administrar compra</span>
+
+				</a>
+
+			</li>
 					<li>
 
 						<a href="crear-compra">
 							
 							<i class="fa fa-circle-o"></i>
-							<span>Nueva compra</span>
+							<span>Crear compra</span>
 
 						</a>
 
 					</li>
 
-					<li>
-
-						<a href="compras">
-							
-							<i class="fa fa-circle-o"></i>
-							<span>Administrar compra</span>
-
-						</a>
-
-					</li>';
+					';
 
 				echo '</ul>
 

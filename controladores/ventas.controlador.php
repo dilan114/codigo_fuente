@@ -120,7 +120,7 @@ class ControladorVentas{
 				"productos" => $_POST["listaProductos"],
 				"impuesto" => $_POST["nuevoPrecioImpuesto"],
 				"neto" => $_POST["nuevoPrecioNeto"],
-				"total" => $_POST["totalVenta"], // Este es el campo que contiene el precio total
+				"total" => $_POST["totalVenta"],
 				"metodo_pago" => $_POST["listaMetodoPago"]
 			);
 			
@@ -212,19 +212,29 @@ class ControladorVentas{
 				$printer -> close();*/
 
 	
-				echo'<script>
-
+				echo '<script>
+		 
 				localStorage.removeItem("rango");
 
 				swal({
 					  type: "success",
-					  title: "La venta ha sido guardada correctamente",
+					  title: "La Venta ha sido guardada correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar"
 					  }).then(function(result){
 								if (result.value) {
 
-								window.location = "ventas";
+									// Abre la factura en una nueva ventana emergente
+									// Abre la factura en una nueva ventana emergente
+									var win = window.open("http://localhost/codigo_fuente/extensiones/tcpdf/pdf/ticket.php?codigo=' . $_POST["nuevaVenta"] . '", "_blank", "width=400,height=600");
+
+									if(win){
+										win.focus();
+									} else {
+										alert("Por favor, habilite las ventanas emergentes para ver la factura.");
+									}
+
+									window.location = "ventas";
 
 								}
 							})

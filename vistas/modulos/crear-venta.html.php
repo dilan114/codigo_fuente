@@ -116,7 +116,7 @@
 
                   <div class="col-xs-3">
                     
-                     <input type="number" class="form-control" id="nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" placeholder="0" required>
+                     <input type="number" class="form-control" id="nuevaCantidadProducto" name="nuevaCantidadProducto" min="1"  value="0" placeholder="0" required>
 
                   </div> 
 

@@ -64,7 +64,11 @@ if(isset($_SESSION["foto"]) && !empty($_SESSION["foto"])){
                 </li>
 				<li class="user-body">
     <div class="pull-right">
-        <a href="salir" class="btn btn-primary btn-flat btn-danger text-white" style="margin-right: 10px;">Salir</a>
+    <a href="salir" class="btn btn-danger btn-flat" style="margin-right: 10px; color: white;">
+    <i class="fas fa-sign-out-alt mr-2"></i> Salir
+</a>
+
+
     </div>
 	<div class="pull-right">
        <p>ㅤㅤㅤㅤㅤㅤㅤ</p>	
